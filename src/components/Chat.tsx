@@ -41,7 +41,7 @@ const Chat: React.FC = () => {
     event.preventDefault();
   }
 
-  const messages = receivedMessages.reverse().map((message, index) => {
+  const messages = receivedMessages.map((message, index) => {
     const timestamp = message.timestamp;
     const date = new Date(timestamp);
     const hours = date.getHours();
