@@ -10,6 +10,7 @@ const Chat = () => {
 
   const [messageText, setMessageText] = useState<string>('');
   const [receivedMessages, setMessages] = useState<any[]>([]);
+  const [presenceMembers, setPresenceMembers] = useState<any[]>([]);
   const messageTextIsEmpty = messageText.trim().length === 0;
 
   const [channel, ablyChannel] = useChannel('chat-giltech', (message: any) => {
@@ -47,6 +48,31 @@ const Chat = () => {
     }
     messageContainerRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
   }, [channel, receivedMessages]);
+
+  useEffect(() => {
+    if (channel) {
+      channel.presence.enter();
+
+      channel.presence.subscribe('enter', (member: any) => {
+        setPresenceMembers((prevMembers) => [...prevMembers, member]);
+      });
+
+      channel.presence.subscribe('leave', (member: { clientId: any; }) => {
+        setPresenceMembers((prevMembers) =>
+          prevMembers.filter((existingMember) => existingMember.clientId !== member.clientId)
+        );
+      });
+
+      channel.presence.get().then((members: React.SetStateAction<any[]>) => {
+        setPresenceMembers(members);
+      });
+
+      return () => {
+        channel.presence.unsubscribe();
+        channel.presence.leave();
+      };
+    }
+  }, [channel]);
 
   return (
     <div className="pb-20 pt-20">
