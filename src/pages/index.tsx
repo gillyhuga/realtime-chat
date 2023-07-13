@@ -14,12 +14,10 @@ const Home: React.FC = () => {
       <Head>
         <title>Realtime Chat App</title>
       </Head>
-      <main className="relative">
-
-        <h1 className="title font-bold text-lg flex justify-center items-center h-20 m-0 fixed top-0 left-0 right-0 bg-transparent backdrop-filter backdrop-blur-md ">
-          <div className=" bg-gradient-to-r from-green-300 via-blue-500 to-purple-600 h-60 blur-2xl opacity-30 -mt-40  absolute w-full top-0 z-10"></div>
-          Gilech Chat Room
-        </h1>
+      <main className="relative  max-w-[768px] mx-auto">
+        <div className="navbar rounded-b-lg bg-base-300 z-50 flex justify-center fixed top-0 left-0 right-0 max-w-[768px] w-full mx-auto">
+          <a className="btn btn-ghost normal-case text-xl">Gilech Chat Room</a>
+        </div>
         <Chat />
       </main>
     </div>
