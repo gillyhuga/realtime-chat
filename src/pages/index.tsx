@@ -2,9 +2,10 @@ import Head from 'next/head';
 import { Toaster } from 'react-hot-toast';
 import { useEffect, useState } from 'react';
 import Chat from '../components/Chat';
+import Header from '../components/Header';
 
 const Home: React.FC = () => {
-  const [users, setUsers] = useState([]);
+  const [users, setUsers] = useState<number>(0);
 
   const fetchUsers = () => {
     fetch('/api/users')
@@ -29,20 +30,8 @@ const Home: React.FC = () => {
       <Head>
         <title>Realtime Chat App</title>
       </Head>
-      <main className="relative  max-w-[768px] mx-auto">
-        <div className="navbar rounded-b-lg bg-base-300 z-50 flex justify-center fixed top-0 left-0 right-0 max-w-[768px] w-full mx-auto">
-
-          <div className="flex-1">
-            <a className="btn btn-ghost normal-case text-xl">Gilech Chat Room</a>
-          </div>
-          <div className="flex-none">
-
-            <button className="btn btn-ghost normal-case">
-              <div className="badge badge-outline"><span className="loading loading-ring loading-xs mr-2"></span> {users} Online</div>
-            </button>
-          </div>
-
-        </div>
+      <main className="relative max-w-[768px] mx-auto">
+        <Header users={users} />
         <Chat />
       </main>
     </div>
