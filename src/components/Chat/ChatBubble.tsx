@@ -11,8 +11,10 @@ const ChatBubble: React.FC<ChatBubbleProps> = ({ message, ablyChannel, messageCo
   const timestamp = message.timestamp;
   const formattedTime = formatTime(timestamp);
 
-  const author = message.connectionId === ablyChannel.connection.id ? 'Me' : message.connectionId;
-  const isCurrentUser = author === 'Me';
+  const storedUsername = localStorage.getItem('chatUsername') || '';
+  const isCurrentUser = message.data?.username === storedUsername;
+
+  const author = isCurrentUser ? 'Me' : message.data?.username || message.connectionId;
 
   useEffect(() => {
     messageContainerRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
@@ -24,7 +26,9 @@ const ChatBubble: React.FC<ChatBubbleProps> = ({ message, ablyChannel, messageCo
         {author}
         <time className="text-xs opacity-50 pl-2">{formattedTime}</time>
       </div>
-      <div className={`chat-bubble break-words ${isCurrentUser ? 'bg-primary' : ''}`}>{message.data}</div>
+      <div className={`chat-bubble break-words ${isCurrentUser ? 'bg-primary' : ''}`}>
+        {message.data?.text || ''}
+      </div>
     </div>
   );
 };
